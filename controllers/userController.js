@@ -74,4 +74,15 @@ async function login(req, res) {
   }
 }
 
-module.exports = { register, login };
+async function logout(req,res) {
+  try {
+      return res.clearCookie(config.COOKIE_NAME,{path: "/"}).status(200).json({message: "sikeres logout"})
+  } catch (err) {
+      return res.status(500).json({error:'logout server oldali hiba'})
+  }
+}
+
+
+
+
+module.exports = { register, login,logout };
