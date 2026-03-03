@@ -15,7 +15,7 @@ const cookieOpts = {
 async function register(req, res) {
   try {
     const { email, username, psw } = req.body;
-    console.log(email, username, psw);
+    
     if (!email || !username || !psw) {
       return res.status(400).json({ error: "Valami hiányzik" });
     }

@@ -2,6 +2,7 @@ const express = require('express')
 const cors = require('cors')
 const cookieParser = require('cookie-parser')
 const userRoutes = require('./routes/userRoutes')
+const usedanimalsRoutes = require('./routes/usedanimalsRoutes')
 
 
 const app = express();
@@ -11,9 +12,11 @@ app.use(cors({
     origin: ['http://localhost:5173'],
     credentials: true  
 }))
-
+// mukodik ez a szar
 
 app.use('/users',userRoutes)
+
+app.use('/animals',usedanimalsRoutes)
 
 
 module.exports = app
