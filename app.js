@@ -12,7 +12,7 @@ app.use(cors({
     origin: ['http://localhost:5173'],
     credentials: true  
 }))
-
+// mukodik ez a szar
 
 app.use('/users',userRoutes)
 
