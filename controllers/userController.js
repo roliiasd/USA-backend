@@ -82,7 +82,18 @@ async function logout(req,res) {
   }
 }
 
+async function whoAmI(req,res) {
+  
+    try {
+      const {user_id,username,email,role} = req.user
+      return res.status(200).json({user_id: user_id,username: username, email: email,role: role})
+    } catch (err) {
+    return res.status(500).json({error:"whoAmI server hib",err})
+  }
+
+}
 
 
 
-module.exports = { register, login,logout };
+
+module.exports = { register, login,logout,whoAmI };
