@@ -6,4 +6,10 @@ async function createanim(user_id,nev,kep,varos,megjegyzes) {
     return {animalId: result.insertId}
 }
 
-module.exports = {createanim}
+async function allAnimals() {
+    const sql = 'SELECT user.username,nev,kep,varos,megjegyzes FROM `usedanimals` inner JOIN user ON user.user_id = usedanimals.userId;'
+    const [result] = await db.query(sql)
+    return result
+}
+
+module.exports = {createanim,allAnimals}
