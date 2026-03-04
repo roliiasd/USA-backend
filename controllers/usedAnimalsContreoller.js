@@ -1,5 +1,5 @@
 
-const {createanim} = require("../models/usedAnimalsModel")
+const {createanim,allAnimals} = require("../models/usedAnimalsModel")
 
 
 async function addanim(req,res) {
@@ -23,5 +23,16 @@ async function addanim(req,res) {
     }
 }
 
+async function getanim(req,res) {
+    try {
+        const result = await allAnimals()
+        res.status(200).json({result})
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({error:"Hiba az mc szeróval",err})
+    }
 
-module.exports = {addanim}
+}
+
+
+module.exports = {addanim,getanim}
