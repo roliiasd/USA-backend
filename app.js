@@ -1,6 +1,7 @@
 const express = require('express')
 const cors = require('cors')
 const cookieParser = require('cookie-parser')
+const path = require('path')
 const userRoutes = require('./routes/userRoutes')
 const usedanimalsRoutes = require('./routes/usedanimalsRoutes')
 const citiesRoutes = require('./routes/citiesRoutes')
@@ -14,7 +15,7 @@ app.use(cors({
     credentials: true  
 }))
 // mukodik ez a szar
-
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use('/users',userRoutes)
 
 app.use('/animals',usedanimalsRoutes)
