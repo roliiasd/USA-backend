@@ -11,7 +11,7 @@ async function getcounties() {
   return result;
 }
 async function getCitiesByCounty(id) {
-  const sql = "SELECT * FROM cities WHERE county_id = ?";
+  const sql = "SELECT DISTINCT * FROM cities WHERE county_id = ? ORDER BY city ASC";
   const [result] = await db.query(sql, [id]);
   return result;
 }
