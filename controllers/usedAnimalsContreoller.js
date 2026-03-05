@@ -6,14 +6,17 @@ async function addanim(req,res) {
     try {
         // console.log("req.user:", req.user)
         // console.log("req.user.user_id:", req.user?.user_id)
-        const {nev,kep,varos,megjegyzes} = req.body
+        const {nev,varos,megjegyzes,postcode} = req.body
+        console.log(nev,varos,megjegyzes,postcode);
+        const kep = `uploads/${req.user.user_id}/${req.file.filename}`
+        console.log(kep);
         
         
         
-        if (!nev || !kep || !varos || !megjegyzes) {
-            return res.status(400).json({error:"nev, kep, varos, megjegyzes kell"})
+        if (!nev || !kep || !varos || !megjegyzes || !postcode) {
+            return res.status(400).json({error:"nev, kep, varos, megjegyzes és postcode is kell"})
         }
-        const {animalId} = await createanim(req.user.user_id,nev,kep,varos,megjegyzes)
+        const {animalId} = await createanim(req.user.user_id,nev,kep,varos,megjegyzes,postcode)
 
 
             return res.status(200).json({message:"Sikeres feltöltés",animalId})
