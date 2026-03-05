@@ -3,6 +3,7 @@ const cors = require('cors')
 const cookieParser = require('cookie-parser')
 const userRoutes = require('./routes/userRoutes')
 const usedanimalsRoutes = require('./routes/usedanimalsRoutes')
+const citiesRoutes = require('./routes/citiesRoutes')
 
 
 const app = express();
@@ -17,6 +18,8 @@ app.use(cors({
 app.use('/users',userRoutes)
 
 app.use('/animals',usedanimalsRoutes)
+
+app.use('/cities',citiesRoutes )
 
 
 module.exports = app

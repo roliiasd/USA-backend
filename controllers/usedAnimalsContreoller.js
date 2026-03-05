@@ -29,10 +29,10 @@ async function addanim(req,res) {
 async function getanim(req,res) {
     try {
         const result = await allAnimals()
-        res.status(200).json({result})
+        return res.status(200).json({result})
     } catch (err) {
         console.log(err);
-        res.status(500).json({error:"Hiba az mc szeróval",err})
+       return res.status(500).json({error:"Hiba az mc szeróval",err})
     }
 
 }
