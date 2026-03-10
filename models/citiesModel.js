@@ -15,5 +15,10 @@ async function getCitiesByCounty(id) {
   const [result] = await db.query(sql, [id]);
   return result;
 }
+async function getPostcodesByCity(id) {
+  const sql = 'SELECT DISTINCT postcode FROM cities WHERE county_id = ? ORDER BY postcode ASC';
+  const [result] = await db.query(sql, [id]);
+  return result;
+}
 
-module.exports = { getcities, getcounties, getCitiesByCounty };
+module.exports = { getcities, getcounties, getCitiesByCounty,getPostcodesByCity };
