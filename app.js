@@ -5,6 +5,7 @@ const path = require('path')
 const userRoutes = require('./routes/userRoutes')
 const usedanimalsRoutes = require('./routes/usedanimalsRoutes')
 const citiesRoutes = require('./routes/citiesRoutes')
+const messageRoutes = require('./routes/messagesRoutes')
 
 
 const app = express();
@@ -21,6 +22,8 @@ app.use('/users',userRoutes)
 app.use('/animals',usedanimalsRoutes)
 
 app.use('/cities',citiesRoutes )
+
+app.use('/messages',messageRoutes)
 
 
 module.exports = app
