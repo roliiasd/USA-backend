@@ -2,6 +2,7 @@ const {
   getcities,
   getcounties,
   getCitiesByCounty,
+  getPostcodesByCity,
 } = require("../models/citiesModel.js");
 
 async function allcities(req, res) {
@@ -36,4 +37,16 @@ async function filteredCities(req, res) {
     return res.status(500).json({ error: "Hiba az mc szeróval", err });
   }
 }
-module.exports = { allcities, allcounties, filteredCities };
+
+async function filteredPostcodes(req,res) {
+  try {
+    const id = req.params.id;
+    const result = await getPostcodesByCity(id);
+
+      return res.status(200).json({ result });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ error: "Hiba az mc szeróval", err });
+  }
+}
+module.exports = { allcities, allcounties, filteredCities,filteredPostcodes };
