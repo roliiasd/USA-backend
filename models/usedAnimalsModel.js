@@ -13,5 +13,10 @@ async function allAnimals() {
     const [result] = await db.query(sql)
     return result
 }
+async function filteredAnim(megye,varos) {
+    const sql = `SELECT user.username,usedanimals.nev,usedanimals.kep,cities.city AS varos,usedanimals.megjegyzes,cities.postcode,counties.county AS megye FROM usedanimals INNER JOIN user ON user.user_id = usedanimals.userId INNER JOIN cities ON usedanimals.postcode = cities.postcode INNER JOIN counties ON cities.county_id = counties.id WHERE counties.county = ? AND cities.city = ?`;
+    const [result] = await db.query(sql,[megye,varos])
+    return result
+}
 
-module.exports = {createanim,allAnimals}
+module.exports = {createanim,allAnimals,filteredAnim}
