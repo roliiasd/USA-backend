@@ -26,10 +26,10 @@ async function allcounties(req, res) {
 async function filteredCities(req, res) {
   try {
     const { id } = req.params;
-    console.log(`coutny id: ${id}`);
+    // console.log(`coutny id: ${id}`);
 
     const result = await getCitiesByCounty(id);
-    console.log("Városok száma:", result.length);
+    // console.log("Városok száma:", result.length);
     return res.status(200).json({ result });
   } catch (err) {
     console.log(err);

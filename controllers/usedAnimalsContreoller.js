@@ -1,5 +1,5 @@
 
-const {createanim,allAnimals} = require("../models/usedAnimalsModel")
+const {createanim,allAnimals,filteredAnim} = require("../models/usedAnimalsModel")
 
 
 async function addanim(req,res) {
@@ -37,5 +37,14 @@ async function getanim(req,res) {
 
 }
 
+async function filteranim(req,res) {
+    try {
+        const {megye,varos} = req.body
+        const result = await filteredAnim(megye,varos)
+        return res.status(200).json({result})
+    } catch (err) {
+        return res.status(500).json({error:"Hiba a MesterMc Filter szeróval",err})
+    }
+}
 
-module.exports = {addanim,getanim}
+module.exports = {addanim,getanim,filteranim}

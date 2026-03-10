@@ -1,7 +1,7 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { config } = require("../config/dotenvConfig");
-const { findByEmail, createUser } = require("../models/userModel");
+const { findByEmail, createUser,editUser } = require("../models/userModel");
 
 const cookieOpts = {
   
@@ -94,6 +94,23 @@ async function whoAmI(req,res) {
 }
 
 
+async function edit(req,res) {
+  try {
+    const {nev,psw} = req.body
+    const hash = await bcrypt.hash(psw, 10);
+    if (!nev || !psw) {
+      return res.status(400).json({error:"nev és psw is kell"})
+      
+    }
+    const {result} = await editUser(nev,hash,req.user.user_id)
+      return res.status(200).json({message:"sikeres edit",result})
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({error:"edit mc szerver nem fut mert dani gépén rendesen ki van kapcsolva és emiatt nem tud futtni a szerver amin menne az mc Bukkit szerver",err})
+  }
+}
 
 
-module.exports = { register, login,logout,whoAmI };
+
+
+module.exports = { register, login,logout,whoAmI,edit };
