@@ -6,8 +6,9 @@ const {
   createUser,
   editUsername,
   editPassword,
-  findByName
+  findByName,
 } = require("../models/userModel");
+const { json } = require("express");
 
 const cookieOpts = {
   httpOnly: true,
@@ -103,18 +104,27 @@ async function whoAmI(req, res) {
 async function editName(req, res) {
   try {
     const { nev } = req.body;
+
+    if (nev === req.user.username) {
+      return res.status(400).json({error: 'Igy hivnak most te szenilis'})
+    }
+
+
+    // console.log("Kapott név:", nev);
+    // console.log("Saját user_id:", req.user.user_id);
     const exists = await findByName(nev);
-    
-    if (exists) {
+    // console.log("exists eredmény:", exists);
+
+    if (exists && exists.user_id !== req.user.user_id) {
       return res
         .status(409)
-        .json({ error: "Hibás bejelentkezés már létezik" });
+        .json({ error: "Ez a felhasználónév már foglalt!" });
     }
     const { result } = await editUsername(nev, req.user.user_id);
     const token = jwt.sign(
-      { 
+      {
         user_id: req.user.user_id,
-          email: req.user.email,
+        email: req.user.email,
         username: nev,
         role: req.user.role,
       },
@@ -124,10 +134,7 @@ async function editName(req, res) {
     );
     // console.log(token);
     res.cookie(config.COOKIE_NAME, token, cookieOpts);
-    return res
-      .status(200).json({message: "sikeres edit",result,
-      
-      });
+    return res.status(200).json({ message: "sikeres edit", result });
   } catch (err) {
     console.log(err);
     return res.status(500).json({
@@ -144,8 +151,6 @@ async function editPass(req, res) {
 
     const { result } = await editPassword(hash, req.user.user_id);
 
-
-    
     return res.status(200).json({ message: "sikeres edit", result });
   } catch (err) {
     return res.status(500).json({
