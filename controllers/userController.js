@@ -1,10 +1,14 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { config } = require("../config/dotenvConfig");
-const { findByEmail, createUser,editUsername,editPassword } = require("../models/userModel");
+const {
+  findByEmail,
+  createUser,
+  editUsername,
+  editPassword,
+} = require("../models/userModel");
 
 const cookieOpts = {
-  
   httpOnly: true,
   secure: false,
   sameSite: "lax",
@@ -15,7 +19,7 @@ const cookieOpts = {
 async function register(req, res) {
   try {
     const { email, username, psw } = req.body;
-    
+
     if (!email || !username || !psw) {
       return res.status(400).json({ error: "Valami hiányzik" });
     }
@@ -66,7 +70,6 @@ async function login(req, res) {
     // console.log(token);
     res.cookie(config.COOKIE_NAME, token, cookieOpts);
     return res.status(200).json({ message: "YIPPIE" });
-
   } catch (err) {
     return res
       .status(500)
@@ -74,52 +77,63 @@ async function login(req, res) {
   }
 }
 
-async function logout(req,res) {
+async function logout(req, res) {
   try {
-      return res.clearCookie(config.COOKIE_NAME,{path: "/"}).status(200).json({message: "sikeres logout"})
+    return res
+      .clearCookie(config.COOKIE_NAME, { path: "/" })
+      .status(200)
+      .json({ message: "sikeres logout" });
   } catch (err) {
-      return res.status(500).json({error:'logout server oldali hiba'})
+    return res.status(500).json({ error: "logout server oldali hiba" });
   }
 }
 
-async function whoAmI(req,res) {
-  
-    try {
-      const {user_id,username,email,role} = req.user
-      return res.status(200).json({user_id: user_id,username: username, email: email,role: role})
-    } catch (err) {
-    return res.status(500).json({error:"whoAmI server hib",err})
-  }
-
-}
-
-
-async function editName(req,res) {
+async function whoAmI(req, res) {
   try {
-    const {nev} = req.body
-    const {result} = await editUsername(nev,req.user.user_id)
+    const { user_id, username, email, role } = req.user;
+    return res
+      .status(200)
+      .json({ user_id: user_id, username: username, email: email, role: role });
+  } catch (err) {
+    return res.status(500).json({ error: "whoAmI server hib", err });
+  }
+}
 
-      return res.status(200).json({message:"sikeres edit",result})
+async function editName(req, res) {
+  try {
+    const { nev } = req.body;
+    const { result } = await editUsername(nev, req.user.user_id);
+    req.user.username = nev;
+    return res
+      .status(200)
+      .json({
+        message: "sikeres edit",
+        result,
+        updatedUser: { username: nev },
+      });
   } catch (err) {
     console.log(err);
-    return res.status(500).json({error:"edit mc szerver nem fut mert dani gépén rendesen ki van kapcsolva és emiatt nem tud futtni a szerver amin menne az mc Bukkit szerver",err})
+    return res.status(500).json({
+      error:
+        "edit mc szerver nem fut mert dani gépén rendesen ki van kapcsolva és emiatt nem tud futtni a szerver amin menne az mc Bukkit szerver",
+      err,
+    });
   }
 }
-async function editPass(req,res) {
+async function editPass(req, res) {
   try {
-    const {psw} = req.body
+    const { psw } = req.body;
     const hash = await bcrypt.hash(psw, 10);
-    
-    const {result} = await editPassword(hash,req.user.user_id)
-    return res.status(200).json({message:"sikeres edit",result})
 
+    const { result } = await editPassword(hash, req.user.user_id);
+    return res.status(200).json({ message: "sikeres edit", result });
   } catch (err) {
-
-    return res.status(500).json({error:"edit mc szerver nem fut mert dani gépén rendesen ki van kapcsolva és emiatt nem tud futtni a szerver amin menne az mc Bukkit szerver",err})
+    return res.status(500).json({
+      error:
+        "edit mc szerver nem fut mert dani gépén rendesen ki van kapcsolva és emiatt nem tud futtni a szerver amin menne az mc Bukkit szerver",
+      err,
+    });
   }
 }
 
-
-
-
-module.exports = { register, login,logout,whoAmI,editName,editPass};
+module.exports = { register, login, logout, whoAmI, editName, editPass };
