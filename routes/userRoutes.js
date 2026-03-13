@@ -1,5 +1,5 @@
 const express = require('express')
-const { register,login,logout,whoAmI,edit } = require('../controllers/userController.js')
+const { register,login,logout,whoAmI,editName,editPass } = require('../controllers/userController.js')
 const {auth} = require('../middleware/userMiddleware.js')
 const { route } = require('./usedanimalsRoutes.js')
 
@@ -13,7 +13,8 @@ router.get('/whoami',auth,whoAmI)
 
 router.post('/logout',auth,logout)
 
-router.put('/edit',auth,edit)
+router.put('/editname',auth,editName)
+router.put('/editpass',auth,editPass)
 //comit my balls 
 
 module.exports = router
