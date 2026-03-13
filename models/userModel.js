@@ -26,5 +26,11 @@ async function editPassword(psw,user_id) {
     return result
     
 }
+async function findByName(username) {
+    const sql = 'SELECT * FROM user WHERE username = ?'
+    const [result] = await db.query(sql, [username])
+    // console.log(result);
+    return result[0] || null
+}
 
-module.exports = {findByEmail,createUser,editUsername,editPassword} 
+module.exports = {findByEmail,createUser,editUsername,editPassword,findByName} 
