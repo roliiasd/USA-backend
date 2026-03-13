@@ -103,7 +103,7 @@ async function editName(req, res) {
   try {
     const { nev } = req.body;
     const { result } = await editUsername(nev, req.user.user_id);
-    req.user.username = nev;
+    req.session.userData.username = nev;
     return res
       .status(200)
       .json({
