@@ -1,5 +1,5 @@
 
-const {createanim,allAnimals,filteredAnim} = require("../models/usedAnimalsModel")
+const {createanim,allAnimals,filteredAnim,editedAnim} = require("../models/usedAnimalsModel")
 
 
 async function addanim(req,res) {
@@ -47,4 +47,16 @@ async function filteranim(req,res) {
     }
 }
 
-module.exports = {addanim,getanim,filteranim}
+async function editanim(req,res) {
+    try {
+        const {nev,varos,megjegyzes,postcode,megye,id} = req.body
+        const kep = `uploads/${req.user.user_id}/${req.file.filename}`
+        const result = await editedAnim(nev,kep,varos,megjegyzes,postcode,megye,id)
+        return res.status(200).json({result})
+    } catch (err) { 
+        console.log(err);
+        return res.status(500).json({error:"Hiba a MesterMc edit szeróval",err})
+    }
+}
+
+module.exports = {addanim,getanim,filteranim,editanim}

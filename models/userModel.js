@@ -15,10 +15,16 @@ const db = require( '../db/db')
     
 }
 
-async function editUser(nev,psw,user_id) {
-    const sql = 'UPDATE user SET username = ?, psw = ? WHERE user_id = ?'
-    const [result] = await db.query(sql, [nev,psw,user_id])
+async function editUsername(nev,user_id) {
+    const sql = 'UPDATE user SET username = ? WHERE user_id = ?'
+    const [result] = await db.query(sql, [nev,user_id])
     return result
 }
+async function editPassword(psw,user_id) {
+    const sql = 'UPDATE user SET psw = ? WHERE user_id = ?'
+    const [result] = await db.query(sql, [psw,user_id])
+    return result
+    
+}
 
-module.exports = {findByEmail,createUser,editUser} 
+module.exports = {findByEmail,createUser,editUsername,editPassword} 
