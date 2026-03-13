@@ -103,14 +103,22 @@ async function whoAmI(req, res) {
 async function editName(req, res) {
   try {
     const { nev } = req.body;
+    const exists = await findByName(nev);
+    
+    if (exists) {
+      return res
+        .status(409)
+        .json({ error: "Hibás bejelentkezés már létezik" });
+    }
     const { result } = await editUsername(nev, req.user.user_id);
     const token = jwt.sign(
-      {
-        user_id: exists.user_id,
-        email: exists.email,
-        username: exists.username,
-        role: exists.role,
+      { 
+        user_id: req.user.user_id,
+          email: req.user.email,
+        username: nev,
+        role: req.user.role,
       },
+
       config.JWT_SECRET,
       { expiresIn: config.JWT_EXPIRES_IN }
     );
@@ -137,18 +145,7 @@ async function editPass(req, res) {
     const { result } = await editPassword(hash, req.user.user_id);
 
 
-    const token = jwt.sign(
-      {
-        user_id: exists.user_id,
-        email: exists.email,
-        username: exists.username,
-        role: exists.role,
-      },
-      config.JWT_SECRET,
-      { expiresIn: config.JWT_EXPIRES_IN }
-    );
-    // console.log(token);
-    res.cookie(config.COOKIE_NAME, token, cookieOpts);
+    
     return res.status(200).json({ message: "sikeres edit", result });
   } catch (err) {
     return res.status(500).json({
