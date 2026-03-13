@@ -6,6 +6,7 @@ const {
   createUser,
   editUsername,
   editPassword,
+  findByName
 } = require("../models/userModel");
 
 const cookieOpts = {
@@ -103,13 +104,21 @@ async function editName(req, res) {
   try {
     const { nev } = req.body;
     const { result } = await editUsername(nev, req.user.user_id);
-    req.user.username = nev;
+    const token = jwt.sign(
+      {
+        user_id: exists.user_id,
+        email: exists.email,
+        username: exists.username,
+        role: exists.role,
+      },
+      config.JWT_SECRET,
+      { expiresIn: config.JWT_EXPIRES_IN }
+    );
+    // console.log(token);
+    res.cookie(config.COOKIE_NAME, token, cookieOpts);
     return res
-      .status(200)
-      .json({
-        message: "sikeres edit",
-        result,
-        updatedUser: { username: nev },
+      .status(200).json({message: "sikeres edit",result,
+      
       });
   } catch (err) {
     console.log(err);
@@ -126,6 +135,20 @@ async function editPass(req, res) {
     const hash = await bcrypt.hash(psw, 10);
 
     const { result } = await editPassword(hash, req.user.user_id);
+
+
+    const token = jwt.sign(
+      {
+        user_id: exists.user_id,
+        email: exists.email,
+        username: exists.username,
+        role: exists.role,
+      },
+      config.JWT_SECRET,
+      { expiresIn: config.JWT_EXPIRES_IN }
+    );
+    // console.log(token);
+    res.cookie(config.COOKIE_NAME, token, cookieOpts);
     return res.status(200).json({ message: "sikeres edit", result });
   } catch (err) {
     return res.status(500).json({
