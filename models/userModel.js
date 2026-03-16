@@ -1,5 +1,10 @@
-const { edit } = require("../controllers/userController");
 const db = require("../db/db");
+
+async function allUsers() {
+  const sql = "SELECT user_id, username FROM user";
+  const [result] = await db.query(sql);
+  return result;
+}
 
 async function findByEmail(email) {
   const sql = "SELECT * FROM user WHERE email = ?";
@@ -41,4 +46,5 @@ module.exports = {
   editUsername,
   editPassword,
   findByName,
+  allUsers
 };

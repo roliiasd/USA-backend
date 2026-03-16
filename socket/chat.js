@@ -1,4 +1,4 @@
-const db = require('../db/db');
+const db = require("../db/db");
 function setupChat(io) {
   const onlineUsers = new Map();
 
@@ -7,12 +7,12 @@ function setupChat(io) {
 
     socket.on("register", (userId) => {
       onlineUsers.set(Number(userId), socket.id);
-    //   console.log(`User ${userId} online`);
+      //   console.log(`User ${userId} online`);
     });
 
     socket.on("new_message", async (data) => {
       const { senderId, receiverId, szoveg } = data;
-
+      console.log("DATA:", data);
       const [result] = await db.query(
         "INSERT INTO messages (giver, reciver, messages) VALUES (?, ?, ?)",
         [senderId, receiverId, szoveg],
