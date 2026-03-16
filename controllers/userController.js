@@ -4,11 +4,9 @@ const { config } = require("../config/dotenvConfig");
 const {
   findByEmail,
   createUser,
-  editUsername,
-  editPassword,
   findByName,
+  allUsers
 } = require("../models/userModel");
-const { json } = require("express");
 
 const cookieOpts = {
   httpOnly: true,
@@ -17,6 +15,15 @@ const cookieOpts = {
   path: "/",
   maxAge: 1000 * 60 * 60 * 24,
 };
+async function  allusers(req, res) {
+  try {
+    const  result = await allUsers()
+    return  res.status(200).json(result)
+  } catch (err) {
+    return res.status(500).json({ error: 'vagy ures es skizo vagy vagy csak gatyesz a szeronak' });
+    
+  }
+}
 
 async function register(req, res) {
   try {
@@ -161,4 +168,4 @@ async function editPass(req, res) {
   }
 }
 
-module.exports = { register, login, logout, whoAmI, editName, editPass };
+module.exports = { register, login, logout, whoAmI, editName, editPass, allusers };
