@@ -1,4 +1,4 @@
-const {getmessages,convMessages,postMessage} = require("../models/messagesModel.js")
+const {getmessages,convMessages,postMessage, getMessagesBetweenUsers} = require("../models/messagesModel.js")
 
 async function allmessages(req,res){
     try {
@@ -37,6 +37,16 @@ async function sendmessage(req,res){
         
     }
 }
+async function getMessages(req,res) {
+    try {
+        const myId = req.user.user_id
+        const otherId = req.params.otherUsedId
+        const messages = await getMessagesBetweenUsers(myId, otherId)
+        return res.status(200).json(messages)
+    } catch (err) {
+        console.log(err);
+        return res.status(500).json({error: 'bajvan ocsem, nemsikerult lekererni a uziket tesomsz'})
+    }
+}
 
-
-module.exports = {allmessages,conversation,sendmessage} 
+module.exports = {allmessages,conversation,sendmessage, getMessages} 
