@@ -31,4 +31,10 @@ async function editedAnim(nev,kep,varos,megjegyzes,postcode,megye,id) {
     
 }
 
-module.exports = {createanim,allAnimals,filteredAnim, editedAnim}
+async function deletedAnim(id) {
+    const sql = 'DELETE FROM usedanimals WHERE id = ?'
+    const [result] = await db.query(sql,[id])
+    return result
+}
+
+module.exports = {createanim,allAnimals,filteredAnim, editedAnim,deletedAnim}

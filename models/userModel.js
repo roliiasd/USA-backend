@@ -48,6 +48,7 @@ async function chatPartners(user_id) {
   return result;
 }
 async function FindById(user_id) {
+  log
   const sql = 'SELECT user_id, username FROM user WHERE user_id = ?'
   const [result] = await db.query(sql, [user_id])
   return result[0] || null
