@@ -40,11 +40,26 @@ async function findByName(username) {
   return result[0] || null;
 }
 
+async function chatPartners(user_id) {
+  
+  const sql = "SELECT DISTINCT user.user_id, user.username FROM user JOIN messages ON (messages.giver = user.user_id OR messages.reciver = user.user_id) WHERE (messages.giver = ? OR messages.reciver = ?) AND user.user_id != ?;"
+  const [result] = await db.query(sql, [user_id, user_id, user_id]);
+  
+  return result;
+}
+async function FindById(user_id) {
+  const sql = 'SELECT user_id, username FROM user WHERE user_id = ?'
+  const [result] = await db.query(sql, [user_id])
+  return result[0] || null
+}
+
 module.exports = {
   findByEmail,
   createUser,
   editUsername,
   editPassword,
   findByName,
-  allUsers
+  allUsers,
+  chatPartners,
+  FindById
 };

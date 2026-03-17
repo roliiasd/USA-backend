@@ -5,7 +5,11 @@ const {
   findByEmail,
   createUser,
   findByName,
-  allUsers
+  allUsers,
+  editUsername,
+  editPassword,
+  FindById,
+  chatPartners
 } = require("../models/userModel");
 
 const cookieOpts = {
@@ -168,5 +172,27 @@ async function editPass(req, res) {
     });
   }
 }
+async function chatpartners(req,res) {
+  try {
+    const user_id = req.user.user_id
+    
+    const result = await chatPartners(user_id)
+    
+    return res.status(200).json(result)
+  } catch (err) {
+    return res.status(500).json({error: 'chatpartners nem tud futni a szerveren mert valami nem jü', err})
+  }
+}
 
-module.exports = { register, login, logout, whoAmI, editName, editPass, allusers };
+async function findById(req,res) {
+  try {
+    const userid = req.params.id
+   
+    const result = await FindById(userid)
+    return res.status(200).json(result)
+  } catch (err) {
+    return res.status(500).json({error: 'chatpartners nem tud futni a szerveren mert valami nem joó', err})
+  }
+}
+
+module.exports = { register, login, logout, whoAmI, editName, editPass, allusers,chatpartners,findById };
