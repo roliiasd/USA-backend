@@ -18,6 +18,7 @@ const cookieOpts = {
 async function  allusers(req, res) {
   try {
     const  result = await allUsers()
+    console.log(result);
     return  res.status(200).json(result)
   } catch (err) {
     return res.status(500).json({ error: 'vagy ures es skizo vagy vagy csak gatyesz a szeronak' });
