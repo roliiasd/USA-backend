@@ -1,5 +1,5 @@
 
-const {createanim,allAnimals,filteredAnim,editedAnim} = require("../models/usedAnimalsModel")
+const {createanim,allAnimals,filteredAnim,editedAnim,deletedAnim} = require("../models/usedAnimalsModel")
 
 
 async function addanim(req,res) {
@@ -58,5 +58,15 @@ async function editanim(req,res) {
         return res.status(500).json({error:"Hiba a MesterMc edit szeróval",err})
     }
 }
+async function delanim(req,res) {
+    try {
+        const id = req.params.id
+        const result = await deletedAnim(id)
+        return res.status(200).json({result})
+    } catch (err) {
+        console.log(err);
+        return res.status(500).json({error:"Hiba a MesterMc delete szeróval",err})
+    }
+}
 
-module.exports = {addanim,getanim,filteranim,editanim}
+module.exports = {addanim,getanim,filteranim,editanim,delanim}
