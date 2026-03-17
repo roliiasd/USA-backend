@@ -40,8 +40,9 @@ async function sendmessage(req,res){
 async function getMessages(req,res) {
     try {
         const myId = req.user.user_id
-        const otherId = req.params.otherUsedId
+        const otherId = req.params.otherUserId
         const messages = await getMessagesBetweenUsers(myId, otherId)
+        // console.log(messages);
         return res.status(200).json(messages)
     } catch (err) {
         console.log(err);
