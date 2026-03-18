@@ -21,7 +21,7 @@ async function filteredAnim(megye,varos) {
 }
 async function editedAnim(nev,kep,varos,megjegyzes,postcode,megye,id) {
     if (!nev || !kep || !varos || !megjegyzes || !postcode ||!megye) {
-        console.log(nev,kep,varos,megjegyzes,postcode,megye);
+        
         throw new Error("nev, kep, varos, megjegyzes és postcode is kell")
         
     }

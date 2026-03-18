@@ -201,9 +201,9 @@ async function editrole(req,res) {
 
     const {role} = req.body
     const id = req.params.id
-    console.log(role,id);
+    
     const result = await editRole(role, id)
-    console.log(result);
+    
     return res.status(200).json(result)
     
 

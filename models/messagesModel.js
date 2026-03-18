@@ -1,3 +1,4 @@
+const { deleteconv } = require("../controllers/messagesController");
 const db = require("../db/db");
 
 async function getmessages() {
@@ -38,4 +39,10 @@ async function  DeleteOwn(message_id,user_id) {
   return result
   
 }
-module.exports = { getmessages, convMessages, postMessage, getMessagesBetweenUsers,DeleteAny,DeleteOwn };
+async function DeleteConv(otherUserId,user_id) {
+  const sql = "DELETE FROM messages WHERE (giver = ? AND reciver = ?) OR (giver = ? AND reciver = ?)"
+  const [result] = await db.query(sql, [user_id,otherUserId,otherUserId,user_id])
+  return result
+
+}
+module.exports = { getmessages, convMessages, postMessage, getMessagesBetweenUsers,DeleteAny,DeleteOwn,DeleteConv };

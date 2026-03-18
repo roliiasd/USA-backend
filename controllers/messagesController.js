@@ -1,4 +1,4 @@
-const {getmessages,convMessages,postMessage, getMessagesBetweenUsers,DeleteAny,DeleteOwn} = require("../models/messagesModel.js")
+const {getmessages,convMessages,postMessage, getMessagesBetweenUsers,DeleteAny,DeleteOwn,DeleteConv} = require("../models/messagesModel.js")
 
 async function allmessages(req,res){
     try {
@@ -73,4 +73,19 @@ async function deleteOwn(req,res) {
     }
 }
 
-module.exports = {allmessages,conversation,sendmessage, getMessages,deleteAny,deleteOwn} 
+async function deleteconv(req,res) {
+    try {
+        const otherUserId = req.params.otherUserId
+        const userId = req.user.user_id
+        const result = await DeleteConv(otherUserId,userId)
+        return res.status(204).json({message:"Sikeres törlés",result})
+
+
+
+
+    } catch (error) {
+        return res.status(500).json({error:"Hiba az mc szeróval",err})
+    }
+}
+
+module.exports = {allmessages,conversation,sendmessage, getMessages,deleteAny,deleteOwn,deleteconv} 
