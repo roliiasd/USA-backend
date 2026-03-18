@@ -1,6 +1,7 @@
 const express = require('express')
-const { register,login,logout,whoAmI,editName,editPass, allusers,chatpartners,findById } = require('../controllers/userController.js')
+const { register,login,logout,whoAmI,editName,editPass, allusers,chatpartners,findById,editrole } = require('../controllers/userController.js')
 const {auth} = require('../middleware/userMiddleware.js')
+const {isAdmin} = require('../middleware/adminMiddleware.js')
 
 
 const router = express.Router()
@@ -18,6 +19,7 @@ router.put('/editpass',auth,editPass)
 
 router.get('/chat-partners',auth,chatpartners)
 router.get('/:id',auth,findById)
+router.put('/editrole/:id',auth,isAdmin,editrole)
 //comit my balls 
 
 module.exports = router

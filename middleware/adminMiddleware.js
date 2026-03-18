@@ -1,8 +1,10 @@
+const db = require("../db/db");
+
 async function isAdmin(req, res, next) {
     try {
       const [rows] = await db.query(
-        "SELECT role FROM users WHERE id = ?",
-        [req.user.id]
+        "SELECT role FROM user WHERE user_id = ?",
+        [req.user.user_id]
       );
   
       if (rows[0].role !== "admin") {

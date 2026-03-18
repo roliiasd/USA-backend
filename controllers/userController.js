@@ -9,7 +9,8 @@ const {
   editUsername,
   editPassword,
   FindById,
-  chatPartners
+  chatPartners,
+  editRole
 } = require("../models/userModel");
 
 const cookieOpts = {
@@ -195,4 +196,20 @@ async function findById(req,res) {
   }
 }
 
-module.exports = { register, login, logout, whoAmI, editName, editPass, allusers,chatpartners,findById };
+async function editrole(req,res) {
+  try {
+
+    const {role} = req.body
+    const id = req.params.id
+    console.log(role,id);
+    const result = await editRole(role, id)
+    console.log(result);
+    return res.status(200).json(result)
+    
+
+  } catch (err) {
+    return res.status(500).json({error: 'editrole nem tud futni a szerveren mert valami nem joó', err})
+  }
+}
+
+module.exports = { register, login, logout, whoAmI, editName, editPass, allusers,chatpartners,findById,editrole };

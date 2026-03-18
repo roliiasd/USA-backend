@@ -1,4 +1,4 @@
-const {getmessages,convMessages,postMessage, getMessagesBetweenUsers} = require("../models/messagesModel.js")
+const {getmessages,convMessages,postMessage, getMessagesBetweenUsers,DeleteAny,DeleteOwn} = require("../models/messagesModel.js")
 
 async function allmessages(req,res){
     try {
@@ -48,5 +48,28 @@ async function getMessages(req,res) {
         return res.status(500).json({error: 'bajvan ocsem, nemsikerult lekererni a uziket tesomsz'})
     }
 }
+async function deleteAny(req,res){
+    try {
+        const {messageId} = req.params
+        const result = await DeleteAny(messageId)
+        return res.status(204).json({message:"Sikeres törlés",result})
+    } catch (err) {
+        console.log(err);
+        return res.status(500).json({error:"Hiba az mc szeróval",err})
+        
+    }
+    
+}
+async function deleteOwn(req,res) {
+    try {
+        const {messageId} = req.params
+        const userId = req.user.user_id
+        const result = await DeleteOwn(messageId,userId)
+        return res.status(204).json({message:"Sikeres törlés",result})
+    } catch (err) {
+        console.log(err);
+        return res.status(500).json({error:"Hiba az mc szeróval",err})
+    }
+}
 
-module.exports = {allmessages,conversation,sendmessage, getMessages} 
+module.exports = {allmessages,conversation,sendmessage, getMessages,deleteAny,deleteOwn} 
