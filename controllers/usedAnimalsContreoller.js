@@ -7,9 +7,9 @@ async function addanim(req,res) {
         // console.log("req.user:", req.user)
         // console.log("req.user.user_id:", req.user?.user_id)
         const {nev,varos,megjegyzes,postcode,megye} = req.body
-        console.log(nev,varos,megjegyzes,postcode,megye);
+        // console.log(nev,varos,megjegyzes,postcode,megye);
         const kep = `uploads/${req.user.user_id}/${req.file.filename}`
-        console.log(kep);
+        // console.log(kep);
         
         
         
