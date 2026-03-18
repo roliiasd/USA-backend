@@ -78,7 +78,7 @@ async function deleteconv(req,res) {
         const otherUserId = req.params.otherUserId
         const userId = req.user.user_id
         const result = await DeleteConv(otherUserId,userId)
-        return res.status(204).json({message:"Sikeres törlés",result})
+        return res.status(200).json({message:"Sikeres törlés",result})
 
 
 
