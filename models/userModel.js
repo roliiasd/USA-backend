@@ -54,6 +54,14 @@ async function FindById(user_id) {
   return result[0] || null
 }
 
+async function editRole(role,user_id) {
+  console.log(user_id,role);
+  const sql = "UPDATE user SET role = ? WHERE user_id = ?";
+  const [result] = await db.query(sql, [role, user_id]);
+  return result;
+  
+}
+
 module.exports = {
   findByEmail,
   createUser,
@@ -62,5 +70,6 @@ module.exports = {
   findByName,
   allUsers,
   chatPartners,
-  FindById
+  FindById,
+  editRole
 };

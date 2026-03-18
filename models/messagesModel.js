@@ -26,4 +26,16 @@ async function getMessagesBetweenUsers(myId, otherId) {
     const [messages] = await db.query(sql, [myId, otherId, otherId, myId])
     return messages
 }
-module.exports = { getmessages, convMessages, postMessage, getMessagesBetweenUsers };
+async function DeleteAny(message_id) {
+    const sql = "DELETE FROM messages WHERE message_id = ?"
+    const [result] = await db.query(sql, [message_id])
+    return result
+  
+}
+async function  DeleteOwn(message_id,user_id) {
+  const sql = "DELETE FROM messages WHERE message_id = ? AND giver = ?"
+  const [result] = await db.query(sql, [message_id,user_id])
+  return result
+  
+}
+module.exports = { getmessages, convMessages, postMessage, getMessagesBetweenUsers,DeleteAny,DeleteOwn };
