@@ -66,7 +66,7 @@ async function deleteOwn(req,res) {
         const {messageId} = req.params
         const userId = req.user.user_id
         const result = await DeleteOwn(messageId,userId)
-        return res.status(204).json({message:"Sikeres törlés",result})
+        return res.status(200).json({message:"Sikeres törlés",result})
     } catch (err) {
         console.log(err);
         return res.status(500).json({error:"Hiba az mc szeróval",err})
