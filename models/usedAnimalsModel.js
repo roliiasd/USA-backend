@@ -10,7 +10,7 @@ async function createanim(user_id,nev,kep,varos,megjegyzes,postcode,megye) {
 
 
 async function allAnimals() {
-    const sql = 'SELECT id,userId, user.username,nev,kep,varos,megjegyzes,postcode,megye FROM `usedanimals` inner JOIN user ON user.user_id = usedanimals.userId;'
+    const sql = 'SELECT id,userId, user.username,nev,kep,varos,megjegyzes,postcode,megye, user.role FROM `usedanimals` inner JOIN user ON user.user_id = usedanimals.userId;'
     const [result] = await db.query(sql)
     return result
 }
