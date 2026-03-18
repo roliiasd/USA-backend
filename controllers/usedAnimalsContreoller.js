@@ -69,4 +69,5 @@ async function delanim(req,res) {
     }
 }
 
+//valami nem commitolodot :(
 module.exports = {addanim,getanim,filteranim,editanim,delanim}

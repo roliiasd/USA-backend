@@ -13,5 +13,5 @@ router.delete('/deleteanimal/:id',auth,delanim)
 
 
 module.exports = router
-
+//valami nem commitolodot :(
 //commit my balls :)
