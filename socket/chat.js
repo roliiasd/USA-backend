@@ -12,7 +12,7 @@ function setupChat(io) {
 
     socket.on("new_message", async (data) => {
       const { senderId, receiverId, szoveg } = data;
-      console.log("DATA:", data);
+      // console.log("DATA:", data);
       const [result] = await db.query(
         "INSERT INTO messages (giver, reciver, messages) VALUES (?, ?, ?)",
         [senderId, receiverId, szoveg],

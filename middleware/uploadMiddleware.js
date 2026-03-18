@@ -22,7 +22,7 @@ const storage = multer.diskStorage({
     filename: (req,file,cb)=>{
         const userId = req.user?.user_id
         if (!userId) {
-            console.log(userId);
+            // console.log(userId);
             return cb (new Error("A cigányok el lopták a logint"),null)
         }
 

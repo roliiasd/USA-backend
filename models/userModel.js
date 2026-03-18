@@ -48,14 +48,13 @@ async function chatPartners(user_id) {
   return result;
 }
 async function FindById(user_id) {
-  log
   const sql = 'SELECT user_id, username FROM user WHERE user_id = ?'
   const [result] = await db.query(sql, [user_id])
   return result[0] || null
 }
 
 async function editRole(role,user_id) {
-  console.log(user_id,role);
+  // console.log(user_id,role);
   const sql = "UPDATE user SET role = ? WHERE user_id = ?";
   const [result] = await db.query(sql, [role, user_id]);
   return result;
