@@ -36,5 +36,5 @@ async function deletedAnim(id) {
     const [result] = await db.query(sql,[id])
     return result
 }
-
+//valami nem commitolodot :(
 module.exports = {createanim,allAnimals,filteredAnim, editedAnim,deletedAnim}

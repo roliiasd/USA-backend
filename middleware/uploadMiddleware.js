@@ -47,4 +47,7 @@ const upload = multer({
         return cb(new Error("Csak képet fogadunk el :)"),null);
     }})
 
+
+
+    //
 module.exports = {upload}
