@@ -9,7 +9,7 @@ router.post('/addanimal', auth, upload.array("url",5), addanim)
 router.get('/allanimals',allanim)
 router.get('/animal/:animalId', getanim)
 router.get('/filteredanimals',filteranim)
-router.put('/updateanimal',auth,upload.single("kep"),editanim)
+router.put('/updateanimal/:imageId',auth,upload.single("url"),editanim)
 router.delete('/deleteanimal/:id',auth,delanim)
 
 

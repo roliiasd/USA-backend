@@ -28,7 +28,7 @@ async function addImages(animalId, urls) {
 }
 
 async function allAnimals() {
-    const sql = 'SELECT usedanimals.id,usedanimals.userId, user.username,usedanimals.nev,usedanimals.varos,usedanimals.megjegyzes,usedanimals.postcode,usedanimals.megye,images.url FROM usedanimals  INNER JOIN user ON user.user_id = usedanimals.userId INNER JOIN images ON usedanimals.id = images.animal_id';
+    const sql = 'SELECT usedanimals.id,usedanimals.userId, user.username,usedanimals.nev,usedanimals.varos,usedanimals.megjegyzes,usedanimals.postcode,usedanimals.megye,images.url,user.role FROM usedanimals INNER JOIN user ON user.user_id = usedanimals.userId INNER JOIN images ON usedanimals.id = images.animal_id;';
     const [result] = await db.query(sql)
     return result
 }
@@ -37,22 +37,35 @@ async function filteredAnim(megye,varos) {
     const [result] = await db.query(sql,[megye,varos])
     return result
 }
-async function editedAnim(nev,kep,varos,megjegyzes,postcode,megye,id) {
-    if (!nev || !kep || !varos || !megjegyzes || !postcode ||!megye) {
+async function editedAnim(nev,varos,megjegyzes,postcode,megye,animalId) {
+    console.log(nev,varos,megjegyzes,postcode,megye,animalId);
+    if (!nev ||!varos || !megjegyzes || !postcode ||!megye) {
         
         throw new Error("nev, kep, varos, megjegyzes és postcode is kell")
         
     }
     const sql = 'UPDATE usedanimals SET nev= ?,varos= ?,megjegyzes= ?,postcode= ?,megye = ?  WHERE id = ?'
-    const [result] = await db.query(sql,[nev,varos,megjegyzes,postcode,megye ,id])
+
+
+    const [result] = await db.query(sql,[nev,varos,megjegyzes,postcode,megye ,animalId])
         return result
     
 }
+async function editImage(kep,id,imageId) {
+    const sql = 'UPDATE images SET url = ? WHERE animal_id = ? AND id = ?'
+    console.log(kep,id,imageId);
+    const [result] = await db.query(sql,[kep,id,imageId])
+    return result
+    
+}
+
+
 
 async function deletedAnim(id) {
     const sql = 'DELETE FROM usedanimals WHERE id = ?'
     const [result] = await db.query(sql,[id])
     return result
 }
+
 //valami nem commitolodot :(
-module.exports = {createanim,allAnimals,filteredAnim, editedAnim,deletedAnim,addImages,getanimById}
+module.exports = {createanim,allAnimals,filteredAnim, editedAnim,deletedAnim,addImages,getanimById,editImage}
