@@ -5,13 +5,13 @@ const {addanim,getanim,filteranim,editanim,delanim} = require('../controllers/us
 
 const router = express.Router()
 
-router.post('/addanimal',auth,upload.array("kep",5),addanim)
-router.get('/getanimals',getanim)
+router.post('/addanimal', auth, upload.array("url",5), addanim)
+router.get('/animal/:animalId', getanim)
 router.get('/filteredanimals',filteranim)
 router.put('/updateanimal',auth,upload.single("kep"),editanim)
 router.delete('/deleteanimal/:id',auth,delanim)
 
 
 module.exports = router
-//valami nem commitolodot :(
+
 //commit my balls :)
