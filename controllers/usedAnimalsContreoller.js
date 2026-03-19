@@ -1,6 +1,16 @@
 
 const {createanim,allAnimals,filteredAnim,editedAnim,deletedAnim,addImages,getanimById} = require("../models/usedAnimalsModel")
 
+async function allanim(req,res) {
+    try {
+        const result = await allAnimals()
+        return res.status(200).json({result})
+    } catch (err) {
+        console.log(err);
+        return res.status(500).json({error:"Hiba a MesterMc allAnimals szeróval",err})
+    }
+}
+
 
 async function addanim(req,res) {
     try {
@@ -82,4 +92,4 @@ async function delanim(req,res) {
 }
 
 //valami nem commitolodot :(
-module.exports = {addanim,getanim,filteranim,editanim,delanim}
+module.exports = {addanim,getanim,filteranim,editanim,delanim,allanim}
