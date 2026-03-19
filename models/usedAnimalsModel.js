@@ -1,13 +1,31 @@
 
 const db = require( '../db/db')
 
-async function createanim(user_id,nev,kep,varos,megjegyzes,postcode,megye) {
-    const sql = 'INSERT INTO usedanimals (id, userId, nev, kep, varos, megjegyzes,postcode,megye) VALUES (NULL, ?, ?, ?, ?, ?,?,?)'
-    const [result] = await db.query(sql,[user_id,nev,kep,varos,megjegyzes,postcode,megye])
-    console.log(result);
-    return [result]
+async function createanim(user_id, nev, varos, megjegyzes, postcode, megye) {
+    const sql = `INSERT INTO usedanimals (id, userId, nev, varos, megjegyzes, postcode, megye) 
+                 VALUES (NULL, ?, ?, ?, ?, ?, ?)`
+    const [result] = await db.query(sql, [user_id, nev, varos, megjegyzes, postcode, megye])
+    
+    return { animalId: result.insertId }
+}
+async function getanimById(animalId) {
+    const animalSql = `SELECT * FROM usedanimals WHERE id = ?`
+    const [animal] = await db.query(animalSql, [animalId])
+
+    if (animal.length === 0) return null
+
+    const imagesSql = `SELECT id, url FROM images WHERE animal_id = ?`
+    const [images] = await db.query(imagesSql, [animalId])
+
+    return { ...animal[0], images }
 }
 
+
+async function addImages(animalId, urls) {
+    const sql = `INSERT INTO images (id, animal_id, url) VALUES (NULL, ?, ?)`
+    const promises = urls.map(url => db.query(sql, [animalId, url]))
+    await Promise.all(promises)
+}
 
 async function allAnimals() {
     const sql = 'SELECT id,userId, user.username,nev,kep,varos,megjegyzes,postcode,megye FROM `usedanimals` inner JOIN user ON user.user_id = usedanimals.userId;'
@@ -37,4 +55,4 @@ async function deletedAnim(id) {
     return result
 }
 //valami nem commitolodot :(
-module.exports = {createanim,allAnimals,filteredAnim, editedAnim,deletedAnim}
+module.exports = {createanim,allAnimals,filteredAnim, editedAnim,deletedAnim,addImages,getanimById}
