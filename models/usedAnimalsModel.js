@@ -28,7 +28,7 @@ async function addImages(animalId, urls) {
 }
 
 async function allAnimals() {
-    const sql = 'SELECT id,userId, user.username,nev,kep,varos,megjegyzes,postcode,megye FROM `usedanimals` inner JOIN user ON user.user_id = usedanimals.userId;'
+    const sql = 'SELECT usedanimals.id,usedanimals.userId, user.username,usedanimals.nev,usedanimals.varos,usedanimals.megjegyzes,usedanimals.postcode,usedanimals.megye,images.url FROM usedanimals  INNER JOIN user ON user.user_id = usedanimals.userId INNER JOIN images ON usedanimals.id = images.animal_id';
     const [result] = await db.query(sql)
     return result
 }
@@ -43,8 +43,8 @@ async function editedAnim(nev,kep,varos,megjegyzes,postcode,megye,id) {
         throw new Error("nev, kep, varos, megjegyzes és postcode is kell")
         
     }
-    const sql = 'UPDATE usedanimals SET nev= ?,kep= ?,varos= ?,megjegyzes= ?,postcode= ?,megye = ?  WHERE id = ?'
-    const [result] = await db.query(sql,[nev,kep,varos,megjegyzes,postcode,megye ,id])
+    const sql = 'UPDATE usedanimals SET nev= ?,varos= ?,megjegyzes= ?,postcode= ?,megye = ?  WHERE id = ?'
+    const [result] = await db.query(sql,[nev,varos,megjegyzes,postcode,megye ,id])
         return result
     
 }
