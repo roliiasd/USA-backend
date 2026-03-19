@@ -5,7 +5,7 @@ const {addanim,getanim,filteranim,editanim,delanim} = require('../controllers/us
 
 const router = express.Router()
 
-router.post('/addanimal',auth,upload.single("kep"),addanim)
+router.post('/addanimal',auth,upload.array("kep",5),addanim)
 router.get('/getanimals',getanim)
 router.get('/filteredanimals',filteranim)
 router.put('/updateanimal',auth,upload.single("kep"),editanim)

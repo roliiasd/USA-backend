@@ -4,20 +4,24 @@ const {createanim,allAnimals,filteredAnim,editedAnim,deletedAnim} = require("../
 
 async function addanim(req,res) {
     try {
-        // console.log("req.user:", req.user)
-        // console.log("req.user.user_id:", req.user?.user_id)
+        
         const {nev,varos,megjegyzes,postcode,megye} = req.body
-        // console.log(nev,varos,megjegyzes,postcode,megye);
-        const kep = `uploads/${req.user.user_id}/${req.file.filename}`
-        // console.log(kep);
         
+        if (req.files.length > 5) {
+            return res.status(400).json({ error: "Maximum 5 képet lehet feltölteni" })
+        }
+        const kepek = req.files.map(file => `uploads/${req.user.user_id}/${file.filename}`)
         
+        const kepJson = JSON.stringify(kepek)
         
-        if (!nev || !kep || !varos || !megjegyzes || !postcode ||!megye) {
+        if (!nev || !kepek || !varos || !megjegyzes || !postcode ||!megye) {
             return res.status(400).json({error:"nev, kep, varos, megjegyzes és postcode is kell"})
         }
-        const {animalId} = await createanim(req.user.user_id,nev,kep,varos,megjegyzes,postcode,megye)
+        const { animalId } = await createanim(
+            req.user.user_id, nev, kepJson, varos, megjegyzes, postcode, megye
+        )
 
+        
 
             return res.status(200).json({message:"Sikeres feltöltés",animalId})
     } catch (err) {
