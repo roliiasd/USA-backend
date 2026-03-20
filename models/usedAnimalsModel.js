@@ -28,7 +28,7 @@ async function addImages(animalId, urls) {
 }
 
 async function allAnimals() {
-    const sql = 'SELECT usedanimals.id,usedanimals.userId, user.username,usedanimals.nev,usedanimals.varos,usedanimals.megjegyzes,usedanimals.postcode,usedanimals.megye,images.url,user.role FROM usedanimals INNER JOIN user ON user.user_id = usedanimals.userId INNER JOIN images ON usedanimals.id = images.animal_id;';
+    const sql = 'SELECT usedanimals.id,usedanimals.userId, user.username,usedanimals.nev,usedanimals.varos,usedanimals.megjegyzes,usedanimals.postcode,usedanimals.megye,images.url,user.role, images.id as "imageId" FROM usedanimals INNER JOIN user ON user.user_id = usedanimals.userId INNER JOIN images ON usedanimals.id = images.animal_id;';
     const [result] = await db.query(sql)
     return result
 }
