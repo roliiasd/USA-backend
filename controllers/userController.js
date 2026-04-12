@@ -10,7 +10,9 @@ const {
   editPassword,
   FindById,
   chatPartners,
-  editRole
+  editRole,
+  editPasswordByEmail,
+  getUserByEmail,
 } = require("../models/userModel");
 
 const cookieOpts = {
@@ -20,14 +22,15 @@ const cookieOpts = {
   path: "/",
   maxAge: 1000 * 60 * 60 * 24,
 };
-async function  allusers(req, res) {
+async function allusers(req, res) {
   try {
-    const  result = await allUsers()
+    const result = await allUsers();
     console.log(result);
-    return  res.status(200).json(result)
+    return res.status(200).json(result);
   } catch (err) {
-    return res.status(500).json({ error: 'vagy ures es skizo vagy vagy csak gatyesz a szeronak' });
-    
+    return res
+      .status(500)
+      .json({ error: "vagy ures es skizo vagy vagy csak gatyesz a szeronak" });
   }
 }
 
@@ -80,7 +83,7 @@ async function login(req, res) {
         role: exists.role,
       },
       config.JWT_SECRET,
-      { expiresIn: config.JWT_EXPIRES_IN }
+      { expiresIn: config.JWT_EXPIRES_IN },
     );
     // console.log(token);
     res.cookie(config.COOKIE_NAME, token, cookieOpts);
@@ -119,9 +122,8 @@ async function editName(req, res) {
     const { nev } = req.body;
 
     if (nev === req.user.username) {
-      return res.status(400).json({error: 'Igy hivnak most te szenilis'})
+      return res.status(400).json({ error: "Igy hivnak most te szenilis" });
     }
-
 
     // console.log("Kapott név:", nev);
     // console.log("Saját user_id:", req.user.user_id);
@@ -143,7 +145,7 @@ async function editName(req, res) {
       },
 
       config.JWT_SECRET,
-      { expiresIn: config.JWT_EXPIRES_IN }
+      { expiresIn: config.JWT_EXPIRES_IN },
     );
     // console.log(token);
     res.cookie(config.COOKIE_NAME, token, cookieOpts);
@@ -173,43 +175,82 @@ async function editPass(req, res) {
     });
   }
 }
-async function chatpartners(req,res) {
+async function forgotPassword(req, res) {
   try {
-    const user_id = req.user.user_id
-    
-    const result = await chatPartners(user_id)
-    
-    return res.status(200).json(result)
+    // console.log("controler fut");
+
+    const { email, newPassword } = req.body;
+    // console.log(req.body);
+
+    const user = await getUserByEmail(email);
+    if (!user) {
+      return res.status(404).json({ error: "Nincs ilyen email cím!" });
+    }
+    const hash = await bcrypt.hash(newPassword, 10);
+    await editPasswordByEmail(hash, email);
+    return res.status(200).json({ message: "Jelszó sikeren módosítva!" });
   } catch (err) {
-    return res.status(500).json({error: 'chatpartners nem tud futni a szerveren mert valami nem jü', err})
+    console.log(err);
+
+    return res.status(500).json({ error: "Hiba történt", err });
   }
 }
 
-async function findById(req,res) {
+async function chatpartners(req, res) {
   try {
-    const userid = req.params.id
-   
-    const result = await FindById(userid)
-    return res.status(200).json(result)
+    const user_id = req.user.user_id;
+
+    const result = await chatPartners(user_id);
+
+    return res.status(200).json(result);
   } catch (err) {
-    return res.status(500).json({error: 'chatpartners nem tud futni a szerveren mert valami nem joó', err})
+    return res.status(500).json({
+      error: "chatpartners nem tud futni a szerveren mert valami nem jü",
+      err,
+    });
   }
 }
 
-async function editrole(req,res) {
+async function findById(req, res) {
   try {
+    const userid = req.params.id;
 
-    const {role} = req.body
-    const id = req.params.id
-    
-    const result = await editRole(role, id)
-    
-    return res.status(200).json(result)
-    
-
+    const result = await FindById(userid);
+    return res.status(200).json(result);
   } catch (err) {
-    return res.status(500).json({error: 'editrole nem tud futni a szerveren mert valami nem joó', err})
+    return res.status(500).json({
+      error: "chatpartners nem tud futni a szerveren mert valami nem joó",
+      err,
+    });
   }
 }
 
-module.exports = { register, login, logout, whoAmI, editName, editPass, allusers,chatpartners,findById,editrole };
+async function editrole(req, res) {
+  try {
+    const { role } = req.body;
+    const id = req.params.id;
+
+    const result = await editRole(role, id);
+
+    return res.status(200).json(result);
+  } catch (err) {
+    return res.status(500).json({
+      error: "editrole nem tud futni a szerveren mert valami nem joó",
+      err,
+    });
+  }
+}
+
+module.exports = {
+  register,
+  login,
+  logout,
+  whoAmI,
+  editName,
+  editPass,
+  allusers,
+  chatpartners,
+  findById,
+  editrole,
+  forgotPassword,
+};

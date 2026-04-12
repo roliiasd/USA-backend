@@ -41,24 +41,34 @@ async function findByName(username) {
 }
 
 async function chatPartners(user_id) {
-  
-  const sql = "SELECT DISTINCT user.user_id, user.username FROM user JOIN messages ON (messages.giver = user.user_id OR messages.reciver = user.user_id) WHERE (messages.giver = ? OR messages.reciver = ?) AND user.user_id != ?;"
+  const sql =
+    "SELECT DISTINCT user.user_id, user.username FROM user JOIN messages ON (messages.giver = user.user_id OR messages.reciver = user.user_id) WHERE (messages.giver = ? OR messages.reciver = ?) AND user.user_id != ?;";
   const [result] = await db.query(sql, [user_id, user_id, user_id]);
-  
+
   return result;
 }
 async function FindById(user_id) {
-  const sql = 'SELECT user_id, username FROM user WHERE user_id = ?'
-  const [result] = await db.query(sql, [user_id])
-  return result[0] || null
+  const sql = "SELECT user_id, username FROM user WHERE user_id = ?";
+  const [result] = await db.query(sql, [user_id]);
+  return result[0] || null;
 }
 
-async function editRole(role,user_id) {
+async function editRole(role, user_id) {
   // console.log(user_id,role);
   const sql = "UPDATE user SET role = ? WHERE user_id = ?";
   const [result] = await db.query(sql, [role, user_id]);
   return result;
-  
+}
+async function getUserByEmail(email) {
+  const sql = "SELECT * FROM user WHERE email = ?";
+  const [rows] = await db.query(sql, [email]);
+  return rows[0];
+}
+
+async function editPasswordByEmail(hash, email) {
+  const sql = "UPDATE user SET psw = ? WHERE email = ?";
+  const [result] = await db.query(sql, [hash, email]);
+  return result;
 }
 
 module.exports = {
@@ -70,5 +80,7 @@ module.exports = {
   allUsers,
   chatPartners,
   FindById,
-  editRole
+  editRole,
+  getUserByEmail,
+  editPasswordByEmail,
 };
