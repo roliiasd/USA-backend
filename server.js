@@ -14,7 +14,7 @@ const io = new Server(server, {
     }
 })
 setupChat(io)
-server.listen(PORT,HOST,()=>{
-    console.log(`http://${HOST}:${PORT}`);
+server.listen(PORT,()=>{
+    console.log(`http://localhost:${PORT}`);
 
 })
