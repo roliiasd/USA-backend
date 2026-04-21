@@ -1,4 +1,4 @@
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { config } = require("../config/dotenvConfig");
 const {
@@ -17,8 +17,8 @@ const {
 
 const cookieOpts = {
   httpOnly: true,
-  secure: false,
-  sameSite: "lax",
+  secure: true,
+  sameSite: "none",
   path: "/",
   maxAge: 1000 * 60 * 60 * 24,
 };
@@ -83,7 +83,7 @@ async function login(req, res) {
         role: exists.role,
       },
       config.JWT_SECRET,
-      { expiresIn: config.JWT_EXPIRES_IN },
+      { expiresIn: config.JWT_EXPIRES_IN }
     );
     // console.log(token);
     res.cookie(config.COOKIE_NAME, token, cookieOpts);
@@ -98,7 +98,12 @@ async function login(req, res) {
 async function logout(req, res) {
   try {
     return res
-      .clearCookie(config.COOKIE_NAME, { path: "/" })
+      .clearCookie(config.COOKIE_NAME, {
+        httpOnly: true,
+        secure: true,
+        sameSite: "none",
+        path: "/",
+      })
       .status(200)
       .json({ message: "sikeres logout" });
   } catch (err) {
@@ -145,7 +150,7 @@ async function editName(req, res) {
       },
 
       config.JWT_SECRET,
-      { expiresIn: config.JWT_EXPIRES_IN },
+      { expiresIn: config.JWT_EXPIRES_IN }
     );
     // console.log(token);
     res.cookie(config.COOKIE_NAME, token, cookieOpts);
