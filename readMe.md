@@ -9,16 +9,17 @@
 ## Tartalomjegyzék
 
 - [Bevezetés](#bevezetés)
-- [Használat](#használat)
-- [Dokumentáció](#dokumentáció)
-- [Közreműködés](#közreműködés)
-- [Licenc](#licenc)
+- [Projeckt szerkezet](#Projeckt-szerkezet)
+- [Adatbázis](#adatbazis)
+- [Telepítés](#telepites)
+- [Használat](#hasznalat)
+- [Fejlesztési lehetőségek](#fejlesztesi-lehetőségek)
 ```
 
 ## 🔗 Bevezetés
 
 ```markdown
-Ez a backend csatlakozik a [Frontendhez](https://github.com/roliiasd/USA-frontend). Ami egy webshop szerü weboldal. Előre "szerettet" állatokat lehet találni és örökbefogadni.
+Ez a backend csatlakozik a [Frontendhez](https://github.com/roliiasd/USA-frontend). Ami egy webshop szerü weboldal. Előre "szerettet" állatokat lehet találni és örökbefogadni. 
 
 Szerkezet szempontjábol fel lett tagolva hogy gyorsan és egyszerüen meg lehesen találni keresett végpontokat. Könnyedén lehet akár újjab végpontokat is fel vinni.
 
