@@ -1,121 +1,128 @@
-
 # 📒 Usedanimals Backend Doku
-/// Backend
 
+![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
+![Express](https://img.shields.io/badge/Express-000000?style=for-the-badge&logo=express&logoColor=white)
+![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white)
+![Socket.io](https://img.shields.io/badge/Socket.io-010101?style=for-the-badge&logo=socketdotio&logoColor=white)
 
-
-
-```markdown
 ## Tartalomjegyzék
 
 - [Bevezetés](#bevezetés)
-- [Projeckt szerkezet](#Projeckt-szerkezet)
-- [Adatbázis](#adatbazis)
-- [Telepítés](#telepites)
-- [Használat](#hasznalat)
-- [Fejlesztési lehetőségek](#fejlesztesi-lehetőségek)
-```
+- [Projekt szerkezet](#projekt-szerkezet)
+- [Adatbázis](#adatbázis)
+- [Telepítés](#telepítés)
+- [Használat](#használat)
+- [Használt függőségek](#használt-függőségek)
+- [Fejlesztési lehetőségek](#fejlesztési-lehetőségek)
+
+---
 
 ## 🔗 Bevezetés
 
-```markdown
-Ez a backend csatlakozik a [Frontendhez](https://github.com/roliiasd/USA-frontend). Ami egy webshop szerü weboldal. Előre "szerettet" állatokat lehet találni és örökbefogadni. 
+Ez a backend csatlakozik a [Frontendhez](https://github.com/roliiasd/USA-frontend), amely egy webshop-szerű weboldal.
 
-Szerkezet szempontjábol fel lett tagolva hogy gyorsan és egyszerüen meg lehesen találni keresett végpontokat. Könnyedén lehet akár újjab végpontokat is fel vinni.
+Az oldalon előre „szeretett” állatokat lehet megtekinteni és örökbefogadni.
 
-```
+A projekt szerkezete úgy lett kialakítva, hogy a keresett végpontokat gyorsan és egyszerűen meg lehessen találni. Emellett könnyedén lehet újabb végpontokat is hozzáadni.
 
+---
 
 ## 🏒 Projekt szerkezet
 
-```markdown
+```text
 ├── config/
-│   └── dotenvConfig.js/
-│   
+│   └── dotenvConfig.js
 ├── controllers/
 │   ├── citiesController.js
 │   ├── messagesController.js
-│   ├── usedAnimalsController.s
+│   ├── usedAnimalsController.js
 │   └── userController.js
-│
 ├── db/
-│   └──db.js
-│
-├─ middleware/
-│   ├──adminMiddleware.js
-│   ├──uploadMiddleware.js
-│   └──userMiddleware.js
-│
-├─ models/
-│   ├── citesModel.js
+│   └── db.js
+├── middleware/
+│   ├── adminMiddleware.js
+│   ├── uploadMiddleware.js
+│   └── userMiddleware.js
+├── models/
+│   ├── citiesModel.js
 │   ├── messagesModel.js
 │   ├── usedAnimalsModel.js
 │   └── userModel.js
-│
-├─ routes/
-│   ├─ citiesRoutes.js
-│   ├─ messagesRoutes.js
-│   ├─ usedanimalsRoutes.js
+├── routes/
+│   ├── citiesRoutes.js
+│   ├── messagesRoutes.js
+│   ├── usedAnimalsRoutes.js
 │   └── userRoutes.js
-│
 ├── socket/
 │   └── chat.js
-│
-├── uploads/ *(ha már vannak képek)*
-│   └── userId
-│       └── *Kép url*
-│ 
+├── uploads/
+│   └── userId/
+│       └── kep-url
 ├── package-lock.json
 ├── package.json
 ├── server.js
 └── README.md
 ```
 
+---
 
-**Példa gyakorlatban:**
+## 🗃️ Adatbázis
 
-```markdown
+A projekt MySQL adatbázist használ. Az adatbázis szerkezete és a kapcsolódó eszközök az alábbi táblázatban találhatók.
+
+| Eszköz | Leírás | Link |
+|---|---|---|
 | 🎨 Figma | UI terv | [Megtekintés](https://www.figma.com/design/XbAhVv2L55v6RXQuZJMhkB/Usedanimals?node-id=0-1&p=f) |
-| 💄️ DrawSQL | Adatbázis diagram | [Megtekintés](https://drawsql.app/teams/sleepy-joe/diagrams/usedanimals) |
+| 💄 DrawSQL | Adatbázis diagram | [Megtekintés](https://drawsql.app/teams/sleepy-joe/diagrams/usedanimals) |
 | 🧪 Postman | API tesztek | [Megtekintés](https://documenter.getpostman.com/view/48099676/2sBXqGq1rj) |
-```
+
+---
 
 ## ⬇️ Telepítés
 
-NPM parancsok telepítéshes:
+NPM parancsok telepítéshez:
 
-```markdown
-git clone https://github.com/roliiasd/USA-backend (GitHub-ról letöltés)
+```bash
+git clone https://github.com/roliiasd/USA-backend
+cd USA-backend
+npm install
 ```
+
+---
 
 ## 🛍️ Használat
 
 NPM parancs a szerver futtatásához:
-```markdown
-npm install (Csak egyszer kell, telepítés után!)
-npm run dev (Szerver futtatása.)
+
+```bash
+npm run dev
 ```
 
+> Az `npm install` parancsot csak egyszer kell futtatni, telepítés után.
+
+---
+
 ## 📋 Használt függőségek
+
 Szerveren használt npm modulok:
-```markdown
-- Bcryptjs
-- Cookie-parser
-- Cors
-- Dotenv
-- Express
-- Jsonwebtoken
-- Multer
-- Mysql2
-- Socket.io
-- Nodemon(Dev)
-```
+
+| Modul | Leírás |
+|---|---|
+| bcryptjs | Jelszavak titkosítása |
+| cookie-parser | Cookie-k kezelése |
+| cors | Cross-Origin kérések engedélyezése |
+| dotenv | Környezeti változók kezelése |
+| express | Szerver keretrendszer |
+| jsonwebtoken | JWT alapú authentikáció |
+| multer | Fájlfeltöltés kezelése |
+| mysql2 | MySQL adatbázis kapcsolat |
+| socket.io | Valós idejű kommunikáció |
+| nodemon | Automatikus újraindítás (dev) |
+
+---
 
 ## 📇 Fejlesztési lehetőségek
 
-```markdown
-- Elfelejtett jelszó email-re való küldése.
-- Nándi-tól való védelem (DDos)
-- Több profil beálításnak a végpontjai
-```
-
+- Elfelejtett jelszó emailre való küldése
+- Nándi elleni védelem (Ddos))
+- Több profilbeállítási végpont
